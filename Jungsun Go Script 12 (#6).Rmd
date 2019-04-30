@@ -1,0 +1,71 @@
+---
+title: "The Relationship of Reading and Writing"
+author: Jungsun Go
+output: html_notebook
+---
+
+##Description
+Do higher reading scores relate to higher writing scores? Researchers at the University of South Carolina investigated the relationship between reading scores and writing scores. The data for this study is from a randomly selected national sample of 200 high school seniors.  
+
+*Source of data: Actual data supplied by the instructor; original data source released by the National Center for Education Statistics*
+
+```{r}
+library(tidyverse)
+
+hsb2 <- read_csv("hsb2.csv")
+
+```
+
+##Analysis
+
+The researchers analyzed the relationship between reading and writing scores in the sample data. Figure 1 is the scatter plot and regression line illustrating the relationship. 
+
+```{r}
+
+model <- lm(write ~ read, data = hsb2)
+summary(model)
+
+cor = cor(hsb2$read, hsb2$write)
+coef.deter = (cor)^2
+
+ggplot(hsb2, aes(x = read, y = write)) +
+  geom_point() +
+  geom_jitter() +
+  stat_smooth(method = "lm")+
+  labs(x = "Reading", y = "Writing",
+       title = "Relationship of Reading Score to Writing score", 
+       subtitle = paste ("correlation = ", round(cor, 3), ", ",
+                         "coefficient of determination = ", (round(coef.deter, 3)),
+                         ", ", "y = ", round(model$coefficients[1], 2), "+", round(model$coefficients[2], 2), "* x"))
+
+```
+
+The linear regression model showed a positive relationship with the slope of 0.55, the correlation coefficient of 0.6, and the coefficient of determination of 0.36. 
+
+Now the researcher wanted to infer the relationship between reading and writing score. 
+
+```{r}
+
+confint(model)
+
+```
+
+For 95% confidence, the confidence interval for the slope of the regression line was between 0.45 and 0.66. 
+
+Also, the researchers wanted to infer the writing score for the mean reading score of the sample. 
+
+```{r}
+
+mean(hsb2$read)
+
+predict(model, data.frame(read = 52), interval = "prediction")
+
+predict(model, data.frame(read = 52), interval = "confidence")
+
+```
+
+We are 95% confident that when the standardized reading score is 52, the standardized writing score is between 37.57 and 67.72, and the mean standardized writing score is between 51.58 and 53.71.
+
+## Conclusion
+
+The researcher explored the data of randomly selected national sample of 200 high school seniors. According to the analysis, linear regression model showed a positive relationship with the slope of 0.55, the correlation coefficient of 0.6, and the coefficient of determination of 0.36. In conclusion, every 1 point increase in reading, there is about 0.55 point increase in writing. Also, 36% of the variation in the writing score can be explained by the reading score. When constructing the confidence interval for the slope of the regression line, we are 95% confident that the writing score would increase between 0.45 and 0.66 points for every 1 additional point increase in reading score. Also, we are 95% confident that when the reading score is 56, the writing score would be between 37.57 and 67.72. and the mean writing score would be between 51.58 and 53.71.
