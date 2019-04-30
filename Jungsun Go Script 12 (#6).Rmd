@@ -1,13 +1,14 @@
 ---
 title: "The Relationship of Reading and Writing"
 author: Jungsun Go
+date: April 30, 2019
 output: html_notebook
 ---
 
 ##Description
 Do higher reading scores relate to higher writing scores? Researchers at the University of South Carolina investigated the relationship between reading scores and writing scores. The data for this study is from a randomly selected national sample of 200 high school seniors.  
 
-*Source of data: Actual data supplied by the instructor; original data source released by the National Center for Education Statistics*
+*Source of data: Actual data supplied by the instructor; original data source released by the National Center for Education Statistics* 
 
 ```{r}
 library(tidyverse)
